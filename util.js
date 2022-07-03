@@ -4,8 +4,8 @@ const fs = require('fs')
 const path = require('path')
 const Downloader = require('nodejs-file-downloader')
 
-exports.exec = function(command) {
-    child_process.execSync(command.split('\r').join('').split('\n').join(' ').split(/ +/).join(' '),{stdio:'inherit'})
+exports.exec = function(command,obj = {}) {
+    child_process.execSync(command.split('\r').join('').split('\n').join(' ').split(/ +/).join(' '),{stdio:'inherit',...obj})
 }
 
 exports.removeIfExists = function(path) {
@@ -62,8 +62,8 @@ exports.extract = function(zip,dir) {
     return extract_zip(zip,{dir:path.resolve(dir)})
 }
 
-exports.findSub = function(dir) {
-    let children = fs.readdirSync(dir);
+exports.findSub = function(dir, optionalPrefix='') {
+    let children = fs.readdirSync(dir).filter(x=>x.startsWith(optionalPrefix));
     if(children.length === 0) {
         console.error(`Directory ${dir} has no children`)
         process.exit(-1)

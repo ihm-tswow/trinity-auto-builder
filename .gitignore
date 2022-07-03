@@ -5,3 +5,4 @@ client.log
 package-lock.json
 write.sql
 mysql_startup.txt
+token.env

@@ -2,7 +2,6 @@ exports.MYSQL_URL = "https://github.com/tswow/misc/releases/download/mysql-5.7.3
 exports.BOOST_URL = "https://github.com/tswow/misc/releases/download/boost-1.74/boost_1_74_0.zip"
 exports.OPENSSL_URL = "https://github.com/tswow/misc/releases/download/openssl-test-1/openssl.zip"
 exports.BUILD_TYPE = "Release"
-exports.TDB_URL = "https://github.com/TrinityCore/TrinityCore/releases/download/TDB335.22061/TDB_full_world_335.22061_2022_06_01.7z"
 exports.SZIP_URL = "https://www.7-zip.org/a/7za920.zip"
 exports.WOW_PATH = "D:\\dev\\wow\\client"
 exports.MYSQL_PORT = 3306
