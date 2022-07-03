@@ -1,0 +1,3 @@
+[submodule "TrinityCore"]
+	path = TrinityCore
+	url = https://github.com/TrinityCore/TrinityCore.git

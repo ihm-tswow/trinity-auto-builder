@@ -1,0 +1,7 @@
+build
+install
+node_modules
+client.log
+package-lock.json
+write.sql
+mysql_startup.txt
