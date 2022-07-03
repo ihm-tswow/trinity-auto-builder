@@ -124,7 +124,7 @@ async function main() {
     try {
         if(!hasAuth) runQuery('auth','install/sql/base/auth_database.sql')
         if(!hasCharacters ) runQuery('auth','install/sql/base/characters_database.sql')
-        if(!hasWorld ) runQuery('auth','install/tdb.sql')
+        if(!hasWorld ) runQuery('world','install/tdb.sql')
     } catch(err){}
 
     util.doIn('install/trinitycore',()=>{
