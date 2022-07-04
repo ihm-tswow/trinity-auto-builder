@@ -7,10 +7,6 @@ const mysql = require('mysql2')
 
 
 async function main() {
-    if(!fs.existsSync('install')) {
-        await require('./build_script').build();
-    }
-
     let mysql_root = util.findSub('install/mysql')
     let mysqld_exe = path.join(mysql_root,'bin','mysqld.exe')
     let mysql_exe = path.resolve(path.join(mysql_root,'bin','mysql.exe'))
