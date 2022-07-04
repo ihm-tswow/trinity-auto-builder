@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path')
 const child_process = require('child_process')
 
-exports.build = async function() {
+async function build() {
     // ================================
     //
     // Patch tc to allow compiling on vs2019+
@@ -160,3 +160,4 @@ exports.build = async function() {
         fs.rmSync('install/sql/old',{recursive:true})
     }
 }
+build();
