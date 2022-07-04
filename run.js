@@ -129,6 +129,7 @@ async function main() {
 
         str = str
             .replace('MySQLExecutable = ""',`MySQLExecutable = "${mysql_exe}"`)
+            .replace('Updates.MySqlCLIPath = ""',`Updates.MySqlCLIPath = "${mysql_exe}"`)
             .replace('SourceDirectory  = ""',`SourceDirectory = "${path.resolve('..')}"`)
 
         if(!settings.BUILD_VMAPS) {
