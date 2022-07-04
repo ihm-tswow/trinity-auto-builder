@@ -37,7 +37,7 @@ exports.build = async function() {
     util.doIn('TrinityCore', ()=> dateStr = child_process.execSync('git log -1 --format=%cd').toString())
     let date = new Date(dateStr);
     const release = releases
-        .filter(x=>new Date(x.published_at) - date < 0)
+        .filter(x=>x.target_commitish === '3.3.5' && new Date(x.published_at) - date < 0)
         .sort((a,b)=>new Date(b.published_at) - new Date(a.published_at))[0]
     const tdbUrl = release.assets[0].browser_download_url
 
@@ -80,7 +80,7 @@ exports.build = async function() {
         child_process.execSync(`"build/7zip/7za.exe" e -o${"build/tdb"} build/tdb.7z`);
     }
 
-    let tdb = path.resolve(util.findSub('build/tdb','TDB_full_world'))
+    let tdb = path.resolve(util.findSub('build/tdb','TDB_full'))
     fs.copyFileSync(tdb,'install/tdb.sql')
     let mysql = path.resolve(util.findSub('install/mysql'))
     let openssl = path.resolve('build/openssl')
