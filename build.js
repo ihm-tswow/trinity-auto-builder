@@ -128,6 +128,7 @@ async function build() {
     util.exec(`cmake 
         -S "${path.resolve('./TrinityCore')}"
         -B "${path.resolve('build/trinitycore')}"
+        -DTOOLS=1
         -DMYSQL_INCLUDE_DIR="${mysql}/include"
         -DMYSQL_LIBRARY="${mysql}/lib/libmysql.lib"
         -DOPENSSL_INCLUDE_DIR="${openssl}/include"
