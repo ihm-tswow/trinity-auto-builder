@@ -8,6 +8,31 @@ const child_process = require('child_process')
 exports.build = async function() {
     // ================================
     //
+    // Patch tc to allow compiling on vs2019+
+    //
+    // ================================
+    const TASK_SCHEDULER_FILE = 'TrinityCore/src/common/Utilities/TaskScheduler.h'
+    let TaskScheduler_h = fs.readFileSync(TASK_SCHEDULER_FILE,'utf-8')
+        .split('\r').join('')
+        .split('\n')
+    let index = TaskScheduler_h.findIndex(x=>x.includes('bool operator() (TaskContainer const& left, TaskContainer const& right)'))
+
+    if(index >= 0) {
+        if(!TaskScheduler_h[index].match(/const *$/)) {
+            TaskScheduler_h[index]+=' const'
+            fs.writeFileSync(TASK_SCHEDULER_FILE,TaskScheduler_h.join('\n'))
+        }
+    }
+
+    const G3D_SYSTEM_FILE = 'TrinityCore/dep/g3dlite/source/System.cpp'
+    let G3D_System_cpp = fs.readFileSync(G3D_SYSTEM_FILE,'utf-8')
+    if(!G3D_System_cpp.includes('<intrin.h>')) {
+        G3D_System_cpp = '#include <intrin.h>\n' + G3D_System_cpp
+        fs.writeFileSync(G3D_SYSTEM_FILE,G3D_System_cpp)
+    }
+
+    // ================================
+    //
     // Find matching TDB
     //
     // ================================
@@ -59,10 +84,18 @@ exports.build = async function() {
         .filter(x=>new Date(x.date) - date < 0)
         .sort((a,b)=>b.date - a.date)[0].url
 
+    const opensslVersions = [
+        { date: new Date('Sep 10 2021'), url: 'https://github.com/tswow/misc/releases/download/openssl-test-1/openssl.zip' },
+        { date: new Date('Jan 01 2000'), url: 'https://github.com/ihm-tswow/boost-builds/releases/download/boost/openssl_1_0_1p.zip' },
+    ]
+    const opensslUrl = opensslVersions
+        .filter(x=>new Date(x.date) - date < 0)
+        .sort((a,b)=>b.date - a.date)[0].url
+
     await Promise.all([
         util.downloadFile(settings.MYSQL_URL,'build/mysql.zip'),
         util.downloadFile(boostUrl,'build/boost.zip'),
-        util.downloadFile(settings.OPENSSL_URL,'build/openssl.zip'),
+        util.downloadFile(opensslUrl,'build/openssl.zip'),
         util.downloadFile(tdbUrl, 'build/tdb.7z'),
         util.downloadFile(settings.SZIP_URL, 'build/7zip.zip')
     ])

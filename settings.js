@@ -1,5 +1,4 @@
 exports.MYSQL_URL = "https://github.com/tswow/misc/releases/download/mysql-5.7.32/mysql-5.7.32-winx64.zip"
-exports.OPENSSL_URL = "https://github.com/tswow/misc/releases/download/openssl-test-1/openssl.zip"
 exports.SZIP_URL = "https://www.7-zip.org/a/7za920.zip"
 
 exports.BUILD_TYPE = "Release"
