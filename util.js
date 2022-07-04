@@ -62,8 +62,9 @@ exports.extract = function(zip,dir) {
     return extract_zip(zip,{dir:path.resolve(dir)})
 }
 
-exports.findSub = function(dir, optionalPrefix='') {
-    let children = fs.readdirSync(dir).filter(x=>x.startsWith(optionalPrefix));
+exports.findSub = function(dir, optionalPrefix='', optionalPostfix='') {
+    let children = fs.readdirSync(dir)
+        .filter(x=>x.startsWith(optionalPrefix) && x.endsWith(optionalPostfix))
     if(children.length === 0) {
         console.error(`Directory ${dir} has no children`)
         process.exit(-1)
