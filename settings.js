@@ -1,8 +1,8 @@
 exports.MYSQL_URL = "https://github.com/tswow/misc/releases/download/mysql-5.7.32/mysql-5.7.32-winx64.zip"
-exports.BOOST_URL = "https://github.com/tswow/misc/releases/download/boost-1.74/boost_1_74_0.zip"
 exports.OPENSSL_URL = "https://github.com/tswow/misc/releases/download/openssl-test-1/openssl.zip"
-exports.BUILD_TYPE = "Release"
 exports.SZIP_URL = "https://www.7-zip.org/a/7za920.zip"
+
+exports.BUILD_TYPE = "Release"
 exports.WOW_PATH = "D:\\dev\\wow\\client"
 exports.MYSQL_PORT = 3306
 exports.BUILD_VMAPS = false

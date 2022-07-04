@@ -6,6 +6,12 @@ const path = require('path')
 const child_process = require('child_process')
 
 exports.build = async function() {
+    // ================================
+    //
+    // Find matching TDB
+    //
+    // ================================
+
     if(!fs.existsSync('./token.env')) {
         console.log('Error: No token set, create a personal access token for github and put it inside a file called "token.env" in this directory.')
         process.exit(-1)
@@ -35,9 +41,27 @@ exports.build = async function() {
         .sort((a,b)=>new Date(b.published_at) - new Date(a.published_at))[0]
     const tdbUrl = release.assets[0].browser_download_url
 
+    // ================================
+    //
+    // Find matching boost version
+    //
+    // ================================
+    let boostVersions = [
+        { date: new Date('Feb 14 2022'), url: 'https://github.com/tswow/misc/releases/download/boost-1.74/boost_1_74_0.zip' },
+        { date: new Date('Apr 30 2020'), url: 'https://github.com/tswow/misc/releases/download/boost-1.72/boost_1_72_0.zip' },
+        { date: new Date('Jul 01 2019'), url: 'https://github.com/ihm-tswow/boost-builds/releases/download/boost/boost_1_66_0.zip' },
+        { date: new Date('Dec 17 2017'), url: 'https://github.com/ihm-tswow/boost-builds/releases/download/boost/boost_1_63_0.zip' },
+        { date: new Date('Feb 28 2017'), url: 'https://github.com/ihm-tswow/boost-builds/releases/download/boost/boost_1_61_0.zip' },
+        { date: new Date('Dec 12 2016'), url: 'https://github.com/ihm-tswow/boost-builds/releases/download/boost/boost_1_60_0.zip' },
+        { date: new Date('Jan 01 2000'), url: 'https://github.com/ihm-tswow/boost-builds/releases/download/boost/boost_1_59_0.zip' },
+    ]
+    const boostUrl = boostVersions
+        .filter(x=>new Date(x.date) - date < 0)
+        .sort((a,b)=>b.date - a.date)[0].url
+
     await Promise.all([
         util.downloadFile(settings.MYSQL_URL,'build/mysql.zip'),
-        util.downloadFile(settings.BOOST_URL,'build/boost.zip'),
+        util.downloadFile(boostUrl,'build/boost.zip'),
         util.downloadFile(settings.OPENSSL_URL,'build/openssl.zip'),
         util.downloadFile(tdbUrl, 'build/tdb.7z'),
         util.downloadFile(settings.SZIP_URL, 'build/7zip.zip')
@@ -60,7 +84,11 @@ exports.build = async function() {
     fs.copyFileSync(tdb,'install/tdb.sql')
     let mysql = path.resolve(util.findSub('install/mysql'))
     let openssl = path.resolve('build/openssl')
-    let boost = path.resolve('build/boost')
+
+    let boost = path.resolve('build/boost');
+    if(fs.readdirSync(boost).length == 1)  {
+        boost = util.findSub(boost);
+    }
 
     console.log(`Running CMake`)
 
